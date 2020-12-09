@@ -43,7 +43,8 @@ app.put('/put-todo', async (req, res) => {
 })
 
 app.delete('/delete-todo/:id', async (req, res) => {
-    let result = Todo.deleteOne({ _id: req.params.id });
-    if (result) return res.send('Deleted successfully..');
+    let todo = Todo.findOne({ _id: req.params.id });
+    const result = await todo.remove()
+    if (result) return res.send({ success: true });
     return res.status(400).send('Unable to delete ...');
 })
