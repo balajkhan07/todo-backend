@@ -25,10 +25,11 @@ app.get('/get-todos', async (req, res) => {
     const todos = await Todo.find();
     if (todos) return res.send(todos);
 
-    return res.status(400).send('Currently no barters ...');
+    return res.status(400).send('Currently no ...');
 })
 
 app.post('/post-todo', async (req, res) => {
+    console.log(req.body)
     let todo = new Todo(req.body);
     const result = await todo.save()
     if (result) return res.send(result);
@@ -36,8 +37,8 @@ app.post('/post-todo', async (req, res) => {
 })
 
 app.put('/put-todo', async (req, res) => {
-    let todo = new Todo.findOneAndUpdate(req.body);
-    const result = await todo.save();
+    let todo = Todo.findOneAndUpdate({ _id: req.body._id }, req.body);
+    const result = await todo.updateOne();
     if (result) return res.send(result);
     return res.status(400).send('Unable to update ...');
 })
